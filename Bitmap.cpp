@@ -61,15 +61,15 @@ bool Bitmap::write(string filename)
     if (m_widthPaddingBytes > 0)
         delete[] tempArray;
 
-    pChar = (char*)m_pPixels.get();
-    for (int y = 0; y < m_height; ++y)
-    {
-        for (int x = 0; x < m_width*3; ++x)
-        {
-            cout << (int)*pChar << " ";
-        }
-    }
-    cout << endl;
+//    pChar = (char*)m_pPixels.get();
+//    for (int y = 0; y < m_height; ++y)
+//    {
+//        for (int x = 0; x < m_width*3; ++x)
+//        {
+//            cout << (int)*pChar << " ";
+//        }
+//    }
+//    cout << endl;
 
     file.close();
     if (!file)
@@ -102,12 +102,12 @@ Bitmap::Bitmap(string filename, string directory)
         return;
     }
 
-    while(!inFile.eof())
-        cout << inFile.get() << " ";
-
-    cout << endl;
-    inFile.clear();
-    inFile.seekg(0);
+//    while(!inFile.eof())
+//        cout << inFile.get() << " ";
+//
+//    cout << endl;
+//    inFile.clear();
+//    inFile.seekg(0);
 
     if (inFile.get() != 66 || inFile.get() !=77)
         cerr << "attempting to open non-bitmap file, exiting process" << endl;
@@ -120,7 +120,7 @@ Bitmap::Bitmap(string filename, string directory)
                 (unsigned char)(inFile.get()) << 16 |
                 (unsigned char)(inFile.get()) << 24
                 );
-        cout << "filesize: " << fileSize << endl;
+//        cout << "filesize: " << fileSize << endl;
 
         inFile.ignore(4);
 
@@ -130,7 +130,7 @@ Bitmap::Bitmap(string filename, string directory)
                 (unsigned char)(inFile.get()) << 16 |
                 (unsigned char)(inFile.get()) << 24
         );
-        cout << "offset: " << offsetToBitmapBits << endl;
+//        cout << "offset: " << offsetToBitmapBits << endl;
 
         inFile.ignore(4);
 
@@ -141,11 +141,11 @@ Bitmap::Bitmap(string filename, string directory)
                 (unsigned char)(inFile.get()) << 24
         );
 
-        cout << "width: " << m_width << endl;
+//        cout << "width: " << m_width << endl;
 
         m_widthPaddingBytes =  (m_width * 3) % 4 == 0 ? 0 : 4 - ((m_width * 3) % 4);
 
-        cout << "width padding in bytes: " << m_widthPaddingBytes << endl;
+//        cout << "width padding in bytes: " << m_widthPaddingBytes << endl;
 
         m_height = int32_t (
                 (unsigned char)(inFile.get()) |
@@ -154,10 +154,10 @@ Bitmap::Bitmap(string filename, string directory)
                 (unsigned char)(inFile.get()) << 24
         );
 
-        cout << "height: " << m_height << endl;
+//        cout << "height: " << m_height << endl;
 
         inFile.ignore(28);
-        cout << "size of bitmap pixels array with padding: " << (m_width * 3 + m_widthPaddingBytes) * m_height << endl;
+//        cout << "size of bitmap pixels array with padding: " << (m_width * 3 + m_widthPaddingBytes) * m_height << endl;
 
         m_pPixels = unique_ptr<uint8_t[]>(new uint8_t[m_width * m_height * 3]{});
         int byteCounter = 0;
@@ -180,7 +180,7 @@ Bitmap::Bitmap(string filename, string directory)
                 }
             }
         }
-        cout << "bytes processed: " << byteCounter << endl;
+//        cout << "bytes processed: " << byteCounter << endl;
     }
     inFile.close();
 }
@@ -214,13 +214,13 @@ void Bitmap::applyColorToGrayscalePixel(uint8_t* pAddrToColorChannel, MyRGB *col
 
     if (inError)
     {
-        cout << "error" << endl;
+        cerr << "attempting to add color to non grayscale image or bitmap bit depth is not 24 bits per pixel" << endl;
         return;
     }
 
 
     int grayKey = *pAddrToColorChannel;
-    cout << grayKey << endl;
+//    cout << grayKey << endl;
     if (grayKey == 255)
         return;
     if (grayKey == 0)
